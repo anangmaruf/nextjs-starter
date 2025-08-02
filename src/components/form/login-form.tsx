@@ -1,0 +1,66 @@
+"use client";
+
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useForm } from "react-hook-form";
+import { LoginSchema, LoginValue } from "@/validations/login.validation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "next-auth/react";
+import { toast } from "sonner";
+import { redirect } from "next/navigation";
+
+export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
+  const form = useForm<LoginValue>({
+    resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = async (credentials: LoginValue) => {
+    toast.loading("Sign in process...");
+    await signIn("credentials", {
+      ...credentials,
+      callbackUrl: "/admin/dashboard",
+    });
+    toast.dismiss();
+  };
+
+  return (
+    <div className={cn("flex flex-col gap-6", className)} {...props}>
+      <Card>
+        <CardHeader>
+          <CardTitle>Login to your account</CardTitle>
+          <CardDescription>Enter your email below to login to your account</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <div className="flex flex-col gap-6">
+              <div className="grid gap-3">
+                <Label htmlFor="email">Email</Label>
+                <Input id="email" type="email" placeholder="m@example.com" {...form.register("email")} required />
+                {form.formState.errors.email && <p className="text-sm text-red-500">{form.formState.errors.email.message}</p>}
+              </div>
+              <div className="grid gap-3">
+                <div className="flex items-center">
+                  <Label htmlFor="password">Password</Label>
+                </div>
+                <Input id="password" type="password" required {...form.register("password")} />
+                {form.formState.errors.password && <p className="text-sm text-red-500">{form.formState.errors.password.message}</p>}
+              </div>
+              <div className="flex flex-col gap-3">
+                <Button type="submit" className="w-full">
+                  Login
+                </Button>
+              </div>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
