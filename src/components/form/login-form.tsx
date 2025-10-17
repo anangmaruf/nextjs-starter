@@ -10,7 +10,7 @@ import { LoginSchema, LoginValue } from "@/validations/login.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { toast } from "sonner";
-import { redirect } from "next/navigation";
+import { message } from "@/constants/message";
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
   const form = useForm<LoginValue>({
@@ -22,7 +22,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
   });
 
   const onSubmit = async (credentials: LoginValue) => {
-    toast.loading("Sign in process...");
+    toast.loading(message.SUBMIT.LOADING);
     await signIn("credentials", {
       ...credentials,
       callbackUrl: "/admin/dashboard",

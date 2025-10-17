@@ -1,18 +1,49 @@
 import db from "@/lib/db";
 import { throwIfError } from "@/lib/throwIf";
 
-// get data by email
-const findByEmail = async (email: string) => {
+const getById = async (id: string) => {
   try {
-    const data = await db.user.findUnique({
-      where: { email },
+    const result = await db.user.findUnique({
+      where: { id },
+      select: { id: true, name: true, email: true },
     });
-    return data;
+    return result;
   } catch (error: any) {
     throwIfError(error, error);
   }
 };
 
+// get data by email
+const findByEmail = async (email: string) => {
+  try {
+    const result = await db.user.findUnique({
+      where: { email },
+    });
+    return result;
+  } catch (error: any) {
+    throwIfError(error, error);
+  }
+};
+
+const updateById = async (id: string, data: any) => {
+  try {
+    const result = await db.user.update({
+      where: {
+        id,
+      },
+      data,
+    });
+
+    return result;
+  } catch (error: any) {
+    throwIfError(error, error);
+  }
+};
+
+const;
+
 export const UserRepository = {
   findByEmail,
+  updateById,
+  getById,
 };

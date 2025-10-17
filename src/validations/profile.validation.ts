@@ -2,7 +2,6 @@ import z from "zod";
 
 export const ProfileSchema = z.object({
   name: z.string(),
-  email: z.string(),
 });
 
-export type ProfileValeu = z.infer<typeof ProfileSchema>;
+export type ProfileValue = z.infer<typeof ProfileSchema>;

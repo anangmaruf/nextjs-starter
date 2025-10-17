@@ -1,8 +1,10 @@
+"use client";
+import ProfileForm from "@/components/form/profile-form";
 import DashboardLayout from "@/components/layouts/DashboardLayout";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-export default function UserPage() {
+export default function SettingPage() {
   return (
     <DashboardLayout>
       <h2 className="semi-bold text-2xl pt-3">Setting</h2>
@@ -13,7 +15,9 @@ export default function UserPage() {
           <TabsTrigger value="profile">Profile</TabsTrigger>
           <TabsTrigger value="password">Password</TabsTrigger>
         </TabsList>
-        <TabsContent value="profile"></TabsContent>
+        <TabsContent value="profile">
+          <ProfileForm />
+        </TabsContent>
         <TabsContent value="roles">Password</TabsContent>
       </Tabs>
     </DashboardLayout>
