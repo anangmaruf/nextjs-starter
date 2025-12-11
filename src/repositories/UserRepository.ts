@@ -40,8 +40,6 @@ const updateById = async (id: string, data: any) => {
   }
 };
 
-const;
-
 export const UserRepository = {
   findByEmail,
   updateById,
